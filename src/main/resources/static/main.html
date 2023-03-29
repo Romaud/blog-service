@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Получение информации с REST сервиса</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Список всех постов</h1>
+<ul id="post-list"></ul>
+
+<script>
+    async function getListOfEntities() {
+        try {
+            const response = await fetch('/api/posts'); // отправляем запрос на сервер
+            const data = await response.json(); // получаем данные в формате JSON
+            const blogPostList = document.getElementById('post-list'); // получаем элемент списка постов
+
+            // добавляем элементы списка постов на страницу
+            data.forEach(blogPost => {
+                const listItem = document.createElement('li');
+                listItem.innerText = `${blogPost.id}
+                Title ${blogPost.title}
+                Контент ${blogPost.content}
+                Автор ${blogPost.author}
+                Дата изменения ${blogPost.updatedDate}
+                Дата создания ${blogPost.createdDate}`;
+                blogPostList.appendChild(listItem);
+            });
+        } catch (error) {
+            console.log('Ошибка получения списка сущностей:', error);
+        }
+    }
+
+    getListOfEntities(); // вызываем функцию для получения списка котов
+</script>
+</body>
+</html>
